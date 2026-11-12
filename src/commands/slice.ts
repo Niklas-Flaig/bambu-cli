@@ -51,6 +51,20 @@ function defaultOutput(input: string): string {
   return `${base}.gcode.3mf`;
 }
 
+/** The MIME type the slicer sidecar accepts for an input model, by extension. */
+function modelMime(input: string): string {
+  const ext = input.toLowerCase().match(/\.(stl|3mf|step|stp)$/)?.[1];
+  switch (ext) {
+    case "3mf":
+      return "model/3mf";
+    case "step":
+    case "stp":
+      return "model/step";
+    default:
+      return "model/stl";
+  }
+}
+
 export async function cmdSlice(config: BambuConfig, flags: SliceFlags): Promise<ExitCode> {
   if (!flags.input) throw new SliceError("Keine Eingabedatei. Nutzung: bambu slice <datei.stl>");
   const inputFile = Bun.file(flags.input);
@@ -64,7 +78,10 @@ export async function cmdSlice(config: BambuConfig, flags: SliceFlags): Promise<
     : config.defaults.printer;
 
   const form = new FormData();
-  form.set("file", new Blob([await inputFile.arrayBuffer()]), basename(flags.input));
+  // The sidecar's upload filter checks the part's MIME type, not just the
+  // extension, and rejects application/octet-stream. Send the model MIME.
+  const blob = new Blob([await inputFile.arrayBuffer()], { type: modelMime(flags.input) });
+  form.set("file", blob, basename(flags.input));
   form.set("printer", printer);
   form.set("preset", flags.process ?? config.defaults.process);
   form.set("filament", flags.filament ?? config.defaults.filament);
