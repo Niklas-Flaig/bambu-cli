@@ -1,0 +1,23 @@
+{
+  "name": "bambu-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "CLI for agents to monitor, slice, stage and prepare prints on a Bambu Lab printer",
+  "bin": { "bambu": "./src/cli.ts" },
+  "scripts": {
+    "bambu": "bun run ./src/cli.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "compile": "bun build --compile ./src/cli.ts --outfile bambu"
+  },
+  "dependencies": {
+    "mqtt": "5.16.1",
+    "fflate": "0.8.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  }
+}

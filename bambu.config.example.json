@@ -1,0 +1,17 @@
+{
+  "host": "192.168.178.57",
+  "serial": "00M09D4A2100751",
+  "model": "X1C",
+  "mqttPort": 8883,
+  "region": "us",
+  "defaults": {
+    "nozzle": "0.4",
+    "printer": "Bambu Lab X1 Carbon 0.4 nozzle",
+    "process": "0.20mm Standard @BBL X1C",
+    "filament": "Bambu PLA Basic @BBL X1C",
+    "bedType": "textured_plate"
+  },
+  "slicer": {
+    "url": "http://bambu-studio-api:3000"
+  }
+}

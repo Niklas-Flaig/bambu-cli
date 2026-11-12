@@ -1,0 +1,8 @@
+node_modules
+bambu
+bambu-*-*
+dist
+coverage
+*.log
+.memsearch/
+.worktrees/

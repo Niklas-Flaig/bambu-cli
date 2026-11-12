@@ -1,0 +1,30 @@
+name: release
+
+# Build the standalone `bambu` binary and attach it to the release when a
+# version tag is pushed. mise pulls it via the ubi backend.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.3"
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      - run: bun run typecheck
+      - name: Compile the Linux x86_64 binary
+        run: bun build --compile --target=bun-linux-x64 ./src/cli.ts --outfile bambu-linux-x86_64
+      - name: Attach to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bambu-linux-x86_64
+          fail_on_unmatched_files: true

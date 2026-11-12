@@ -1,0 +1,8 @@
+{
+  "print": {
+    "gcode_state": "FINISH",
+    "mc_percent": 100,
+    "mc_remaining_time": 0,
+    "layer_num": 140
+  }
+}
