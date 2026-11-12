@@ -22,9 +22,11 @@ jobs:
       - run: bun test
       - run: bun run typecheck
       - name: Compile the Linux x86_64 binary
-        run: bun build --compile --target=bun-linux-x64 ./src/cli.ts --outfile bambu-linux-x86_64
+        run: bun build --compile --target=bun-linux-x64 ./src/cli.ts --outfile bambu
+      - name: Package as a tarball (the github/ubi backend needs an extension)
+        run: tar -czf bambu-linux-x86_64.tar.gz bambu
       - name: Attach to the release
         uses: softprops/action-gh-release@v2
         with:
-          files: bambu-linux-x86_64
+          files: bambu-linux-x86_64.tar.gz
           fail_on_unmatched_files: true

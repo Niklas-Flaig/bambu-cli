@@ -12,11 +12,13 @@ On the agent box it is managed by mise (see `agentic-setup`):
 
 ```toml
 # services/agent/mise/config.toml
-"ubi:Niklas-Flaig/bambu-cli" = { exe = "bambu" }
+"github:Niklas-Flaig/bambu-cli" = "latest"
 ```
 
-`mise install` pulls the binary from the latest GitHub release and puts `bambu`
-on PATH; the nightly `mise upgrade` keeps it current.
+`mise install` pulls the binary from the latest GitHub release (a
+`bambu-linux-x86_64.tar.gz` asset) and puts `bambu` on PATH; the nightly
+`mise upgrade` keeps it current. For a private repo, mise needs a GitHub token
+(`GITHUB_TOKEN` / `MISE_GITHUB_TOKEN`) in its environment.
 
 For development:
 
@@ -80,6 +82,6 @@ bun run format
 Protocol references in the source: OpenBambuAPI (Doridian) and pybambu
 (ha-bambulab). Monitoring is verified live against an X1 Carbon.
 
-A tagged release (`git tag v0.1.0 && git push --tags`) triggers
-`.github/workflows/release.yml`, which builds `bambu-linux-x86_64` and attaches
-it to the release for mise/ubi to pull.
+A tagged release (`git tag v0.2.0 && git push --tags`) triggers
+`.github/workflows/release.yml`, which builds `bambu-linux-x86_64.tar.gz` and
+attaches it to the release for the mise github backend to pull.
